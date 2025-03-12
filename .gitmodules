@@ -1,0 +1,3 @@
+[submodule "simple-pokedex"]
+	path = simple-pokedex
+	url = https://github.com/Carter-Birb/simple-pokedex

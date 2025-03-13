@@ -1,0 +1,3 @@
+- Create a pygame instance of the pokedex
+- Use images from pokemon-images within the pygame pokedex
+- Maybe add tiny games within the pokedex

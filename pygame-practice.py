@@ -82,7 +82,8 @@ while running:
             player_y += player_speed_y
         if keys[pygame.K_d]:
             player_x += player_speed_x
-    
+
+        # Acts as a border to prevent the player from exiting the window
         player_x = max(player_radius, min(player_x, WIDTH - player_radius))
         player_y = max(player_radius, min(player_y, HEIGHT - player_radius))
     

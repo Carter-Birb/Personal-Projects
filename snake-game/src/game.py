@@ -109,7 +109,7 @@ class SnakeGame:
             
             # Checks for collisions with fruit
             fruit_collected = self.grid.check_fruit_collision(head_x, head_y, self.fruit_x, self.fruit_y, SnakeGame.DEBUG)
-            
+
             # Updates the snake's position within the grid list
             self.grid.update_snake(self.snake.body, SnakeGame.DEBUG)
             

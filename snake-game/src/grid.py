@@ -5,12 +5,15 @@ class Grid:
     
     # Within the grid: 0 = blank space, 1 = snake, 2 = fruit, 3 = borders
     
-    def __init__(self, width, height, cell_size):
+    def __init__(self, width, height, cell_size, screen, border_color):
         self.cell_size = cell_size
         self.rows = height // cell_size
         self.columns = width // cell_size
         self.grid = [[0 for _ in range(self.columns)] for _ in range(self.rows)]
-        self.create_borders()
+        self.create_borders(screen, border_color)
+        
+        # Border attributes
+        self.border_size = cell_size
         
         # Begin debug timer
         self.snake_debug = time()
@@ -43,16 +46,23 @@ class Grid:
         if debugging:
             print(f"Fruit placed at position ({grid_x}, {grid_y})")
     
-    def create_borders(self):
+    def create_borders(self, screen, border_color):
         '''
-        creates the borders of the game within the grid variable
+        creates the borders of the game within the grid variable, aswell as draws them visually
         '''
-        for row in range(self.rows):
-            self.grid[row][0] = 3
-            self.grid[row][-1] = 3
-        for col in range(self.columns):
-            self.grid[0][col] = 3
-            self.grid[-1][col] = 3
+        # Mark the borders logically within the grid list
+        for x in range(self.rows):
+            self.grid[0][x] = 3
+            self.grid[self.rows - 1][x] = 3
+        for y in range(self.columns):
+            self.grid[y][0] = 3
+            self.grid[y][self.columns - 1] = 3
+            
+        # Draw the borders visually
+        for y, row in enumerate(self.grid):
+            for x, cell in enumerate(row):
+                if cell == 3:
+                    pygame.draw.rect(screen, border_color, pygame.Rect(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
     
     def draw_grid(self, screen, debugging):
         '''
@@ -97,7 +107,3 @@ class Grid:
             return True
         else:
             return False
-
-if __name__ == '__main__':
-    G = Grid(600, 600, 20)
-    print(G.grid)

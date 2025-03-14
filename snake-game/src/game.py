@@ -21,8 +21,9 @@ class SnakeGame:
         self.screen = pygame.display.set_mode((SnakeGame.WIDTH, SnakeGame.HEIGHT))
         pygame.display.set_caption("Silly Snake Game")
         
-        # Setup the grid
-        self.grid = Grid(600, 600, SnakeGame.GRIDSIZE)
+        # Setup the grid / Render borders
+        self.border_color = (150, 150, 150)
+        self.grid = Grid(600, 600, SnakeGame.GRIDSIZE, self.screen, self.border_color)
         
         # Setup the snake
         self.snake = Snake((self.grid.columns // 2, self.grid.rows // 2), "RIGHT", (0, 255, 0), SnakeGame.GRIDSIZE)
@@ -48,6 +49,9 @@ class SnakeGame:
         
         # Contain the player's score
         self.score = 0
+        
+        # Render the game
+        self.render()
     
     
     def run(self):
@@ -138,20 +142,8 @@ class SnakeGame:
         '''
         self.screen.fill((0, 0, 0))
         
-        # Border attributes
-        border_thickness = 20
-        border_color = (128, 128, 128)
-        
-        # Renders the borders of the game
-        for i in range(4):
-            if i == 0:  # Top border
-                pygame.draw.rect(self.screen, border_color, pygame.Rect(0, 0, SnakeGame.WIDTH, border_thickness))
-            elif i == 1:  # Left border
-                pygame.draw.rect(self.screen, border_color, pygame.Rect(0, 0, border_thickness, SnakeGame.HEIGHT))
-            elif i == 2:  # Bottom border
-                pygame.draw.rect(self.screen, border_color, pygame.Rect(0, SnakeGame.HEIGHT - border_thickness, SnakeGame.WIDTH, border_thickness))
-            elif i == 3:  # Right border
-                pygame.draw.rect(self.screen, border_color, pygame.Rect(SnakeGame.WIDTH - border_thickness, 0, border_thickness, SnakeGame.HEIGHT))
+        # Renders the borders
+        self.grid.create_borders(self.screen, self.border_color)
         
         # Renders the score text
         score_text = self.font.render(f"Score: {self.score}", True, (0, 0, 0))

@@ -28,14 +28,25 @@ class Snake:
         grows the snake by a length of 1 when the snake collides with a fruit
         '''
         tail_x, tail_y = self.body[-1]
-        if self.direction == "UP":
-            new_segment = (tail_x, tail_y + 1)
-        elif self.direction == "DOWN":
-            new_segment = (tail_x, tail_y - 1)
-        elif self.direction == "RIGHT":
-            new_segment = (tail_x - 1, tail_y)
-        elif self.direction == "LEFT":
-            new_segment = (tail_x + 1, tail_y)
+        if len(self.body) > 1:
+            segment_x, segment_y = self.body[-2]
+            if tail_x > segment_x and tail_y == segment_y:
+                new_segment = (tail_x + 1, tail_y)
+            elif tail_x < segment_x and tail_y == segment_y:
+                new_segment = (tail_x - 1, tail_y)
+            elif tail_x == segment_x and tail_y > segment_y:
+                new_segment = (tail_x, tail_y + 1)
+            elif tail_x == segment_x and tail_y < segment_y:
+                new_segment = (tail_x, tail_y - 1)
+        else:
+            if self.direction == "UP":
+                new_segment = (tail_x, tail_y + 1)
+            if self.direction == "DOWN":
+                new_segment = (tail_x, tail_y - 1)
+            if self.direction == "RIGHT":
+                new_segment = (tail_x - 1, tail_y)
+            if self.direction == "LEFT":
+                new_segment = (tail_x + 1, tail_y)
         self.body.append(new_segment)
     
     def change_direction(self, new_direction):

@@ -26,6 +26,5 @@ To run the game, execute the following command:
 
 - Add title screen
 - Add death screen / restart menu instead of closing the game when the snake collides with itself or a border
-- Add sound effects
 - Bug fixing
 - Maybe artwork?

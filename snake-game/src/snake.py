@@ -1,5 +1,6 @@
 import pygame
 
+
 class Snake:
     
     def __init__(self, starting_pos:tuple, starting_dir:str, color, size:int):
@@ -7,12 +8,19 @@ class Snake:
         self.direction = starting_dir
         self.color = color
         self.size = size
+        self.prev_tail_position = starting_pos  # Save the initial tail position
     
     def move(self):
         '''
-        moves the snake depending on the direction
+        Moves the snake depending on the direction.
+        The tail stays the same until `grow()` is called.
         '''
         head_x, head_y = self.body[0]
+        
+        # Save the current tail position (before moving)
+        self.prev_tail_position = self.body[-1]
+        
+        # Determine the new head position based on the current direction
         if self.direction == "UP":
             new_head = (head_x, head_y - 1)
         elif self.direction == "DOWN":
@@ -21,53 +29,35 @@ class Snake:
             new_head = (head_x + 1, head_y)
         elif self.direction == "LEFT":
             new_head = (head_x - 1, head_y)
+        
+        # Move the snake by adding the new head and removing the tail
         self.body = [new_head] + self.body[:-1]
     
     def grow(self):
         '''
-        grows the snake by a length of 1 when the snake collides with a fruit
+        Grows the snake by adding the previous tail position as a new segment.
         '''
-        tail_x, tail_y = self.body[-1]
-        if len(self.body) > 1:
-            segment_x, segment_y = self.body[-2]
-            if tail_x > segment_x and tail_y == segment_y:
-                new_segment = (tail_x + 1, tail_y)
-            elif tail_x < segment_x and tail_y == segment_y:
-                new_segment = (tail_x - 1, tail_y)
-            elif tail_x == segment_x and tail_y > segment_y:
-                new_segment = (tail_x, tail_y + 1)
-            elif tail_x == segment_x and tail_y < segment_y:
-                new_segment = (tail_x, tail_y - 1)
-        else:
-            if self.direction == "UP":
-                new_segment = (tail_x, tail_y + 1)
-            if self.direction == "DOWN":
-                new_segment = (tail_x, tail_y - 1)
-            if self.direction == "RIGHT":
-                new_segment = (tail_x - 1, tail_y)
-            if self.direction == "LEFT":
-                new_segment = (tail_x + 1, tail_y)
-        self.body.append(new_segment)
+        # Append the previous tail position to the snake body
+        self.body.append(self.prev_tail_position)
     
     def change_direction(self, new_direction):
         '''
-        change sthe snake's movement direction
+        Changes the snake's movement direction.
         '''
         self.direction = new_direction
     
     def check_collision(self, debugging) -> bool:
         '''
-        checks if the head of the snake has collided with another segment of the snake
+        Checks if the head of the snake has collided with another segment of the snake.
         '''
         head = self.body[0]
         if debugging and head in self.body[1:]:
             print("Snake touched")
         return head in self.body[1:]
-                    
     
     def draw_snake(self, screen):
         '''
-        draws the snake depending on its length
+        Draws the snake depending on its length.
         '''
         for segment in self.body:
             grid_x, grid_y = segment

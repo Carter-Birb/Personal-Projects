@@ -9,7 +9,7 @@ class SnakeGame:
     # Game constants
     WIDTH, HEIGHT = 600, 600
     MAXFPS = 60
-    GRIDSIZE = 30
+    GRIDSIZE = 50
     MOVE_COOLDOWN = 0.1 # Seconds 
     DEBUG = False
     

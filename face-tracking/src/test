@@ -1,0 +1,18 @@
+import requests
+
+face_data = {
+    "eye distance": 10.5,
+    "nose bridge distance": 5.2,
+    "nose width": 4.0,
+    "face width": 12.3,
+    "mouth width": 6.5
+}
+
+# URL of your Flask server
+url = "http://127.0.0.1:5000/save_face"
+
+# Send the data as JSON
+response = requests.post(url, json=face_data)
+
+print(response.status_code)  # Should be 201 if successful
+print(response.json())  # Should print the response from the server
